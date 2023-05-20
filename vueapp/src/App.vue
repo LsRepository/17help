@@ -1,7 +1,7 @@
 <template>
     <HelloWorld />
-    默认按钮
-    <!--<el-button class="primary">默认按钮</el-button>-->
+    榛樿鎸夐挳
+    <el-button class="primary">榛樿鎸夐挳</el-button>
 </template>
 
 <script lang="ts">
