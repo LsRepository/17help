@@ -1,6 +1,5 @@
 <template>
-    <Home>
-    </Home>
+    <div class="home">
         <el-container>
             <template>
                 <el-page-header @back="goBack">
@@ -15,20 +14,13 @@
                 }
             </script>
         </el-container>
+    </div>
 </template>
-
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import Home from './components/Home.vue';
     export default defineComponent({
-        name: 'App',
-        components: {
-            Home
-        }
-    });
-</script>
+        name: 'Home',
+    });</script>
 
-<style>
-    #app {
-    }
+<style scoped>
 </style>
