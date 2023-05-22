@@ -1,5 +1,5 @@
 <template>
-    <div id="inputview">
+    <div class="inputview">
         <div class="common-layout">
             <el-container>
                 <el-header style="text-align:center">
@@ -29,14 +29,15 @@
                                 <el-form-item label="昵称：（* 必填）" prop="nickname">
                                     <el-input v-model="ruleForm.nickname" placeholder="唯一，便于内部检索" autocomplete="off" />
                                 </el-form-item>
-                                <br />
-                                <el-select v-model="ruleForm.platform" clearable placeholder="Select">
-                                    <el-option v-for="item in options"
-                                               :key="item.value"
-                                               :label="item.label"
-                                               :value="item.value" />
-                                </el-select>
-                                <el-form-item label="昵称：" prop="platformnickName">
+                                <el-form-item label="选择您的平台">
+                                    <el-select style="width:227.77px" v-model="ruleForm.platform" clearable placeholder="选择您所在的平台">
+                                        <el-option v-for="item in options"
+                                                   :key="item.value"
+                                                   :label="item.label"
+                                                   :value="item.value" />
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="所在平台昵称：" prop="platformnickName">
                                     <el-input v-model="ruleForm.platformnickName" />
                                 </el-form-item>
                                 <el-form-item label="个人主页（URL)：" prop="personalhomepage">
@@ -50,7 +51,13 @@
                                     <el-input v-model="ruleForm.name" />
                                 </el-form-item>
                                 <el-form-item label="生日：" prop="birthday">
-                                    <el-input v-model="ruleForm.birthday" />
+                                    <el-date-picker v-model="ruleForm.birthday"
+                                                    type="date"
+                                                    placeholder="请选择日期吧"
+                                                    :disabled-date="disabledDate"
+                                                    :shortcuts="shortcuts"
+                                                    :size="size"
+                                                    style="width:227.77px" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="5">
@@ -63,7 +70,14 @@
                                     <el-input v-model="ruleForm.city" />
                                 </el-form-item>
                                 <el-form-item label="擅长领域：" prop="merit">
-                                    <el-input v-model="ruleForm.merit" placeholder="比如web应用java SQL 微信小程序" />
+                                    <el-select-v2 v-model="ruleForm.merit"
+                                                  :options="meritoptions"
+                                                  placeholder="请输入您的特长"
+                                                  style="width: 277.77px;  vertical-align: middle"
+                                                  allow-create
+                                                  filterable
+                                                  multiple
+                                                  clearable />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="5">
@@ -76,7 +90,7 @@
                                     <el-input v-model="ruleForm.wechant" />
                                 </el-form-item>
                                 <el-form-item label="QQ：" prop="qq">
-                                    <el-input v-model="ruleForm.qq" />
+                                    <el-input v-model.number="ruleForm.qq" />
                                 </el-form-item>
                                 <el-form-item label="钉钉：" prop="dingTalk">
                                     <el-input v-model="ruleForm.dingTalk" />
@@ -105,10 +119,37 @@
     });
 </script>
 <script lang="ts" setup>
+    //注册函数
+    //defineComponent是vue3提供的一个函数，它接受一个配置对象，包含了组件的各种选项和逻辑，最终返回一个组件对象。
+    //reactive 是Vue 3 提供的用于创建响应式数据对象。
+    //ref 是vue3引用数据对象的函数。
     import { defineComponent, reactive, ref } from 'vue'
+    // import type { FormInstance } from 'element-plus'
+
+    //此常量用来让label默认定为在输入框上方。
     const labelPosition = ref('top')
+
+    //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
+
+    //此常量在代码使用 ref 函数创建了一个名为 ruleFormRef 的引用数据对象
+    //并将其初始值设置为 undefined。在后续的代码中，该对象会被赋值为一个表单实例对象，
+    //用于在提交表单时进行表单验证，通过 value 属性来获取该对象的值。
     const ruleFormRef = ref<any>()
+
+    //特长可选项
+    const meritArry = ['c#', 'java', 'sql', 'mySql', 'c++', 'vue', 'cli', 'html', 'css', 'jquery']
+
+    //设置value1为数组
+    const value1 = ref([])
+
+    //遍历特长数组放到可选项里
+    const meritoptions = meritArry.map((item, idx) => ({
+        value: item,
+        label: `${meritArry[idx % 10]}`,
+    }))
+
+    //form表单绑定的变量
     const ruleForm = reactive({
         nickname: '',
         platform: '',
@@ -126,62 +167,67 @@
         email: '',
     })
 
+    //表单绑定的值效验规则
     const rules = ({
         nickname: [
-            { required: true, message: '请输入昵称', trigger: 'blur' },
+            { required: true, message: '请输入昵称', },
+            { min: 1, max: 20, message: '昵称最小长度为1最大长度为20', },
         ],
         platform: [
-            { required: true, message: '请输入平台', trigger: 'blur' },
-            { min: 3, max: 5, message: '平台最小长度为3最大长度为5', trigger: 'blur' },
+            { required: true, message: '请输入平台', },
+            { min: 1, max: 10, message: '平台最小长度为1最大长度为10', },
         ],
         platformnickName: [
-            { required: true, message: '请选择一个平台昵称', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入平台昵称', },
+            { max: 20, message: 'Length should be 3 to 5', },
         ],
         personalhomepage: [
-            { required: true, message: '请输入个人主页Url', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入个人主页Url', },
+            //{ min: 3, max: 5, message: 'Length should be 3 to 5', },
         ],
         name: [
-            { required: true, message: '请输入本人真实姓名', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入本人真实姓名', },
+            { min: 1, max: 5, message: '姓名长度最小为1最大长度为5', },
         ],
         birthday: [
-            { required: true, message: '请输入生日', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请选择生日日期', },
         ],
         cpmpany: [
-            { required: true, message: '请输入所在公司名称', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入所在公司名称', },
+            { min: 2, max: 10, message: '公司名称长度最小为2最大长度为10', },
         ],
         city: [
-            { required: true, message: '请输入城市', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入城市', },
+            { min: 2, max: 5, message: '城市最小长度为 2 to 5', },
         ],
         merit: [
-            { required: true, message: '说一个特长呗', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '说一个特长呗', },
+            { min: 5, max: 10, message: '最少5个字最大10个字', },
         ],
         phone: [
-            { required: true, message: '请输入电话号码', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入电话号码', },
+            { min: 6, max: 11, message: '电话长度最小6位最大11位', },
         ], wechant: [
-            { required: true, message: '请输入微信号', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入微信号', },
+            { min: 1, max: 20, message: '微信最小长度1位最大长度20位', },
         ],
         qq: [
-            { required: true, message: '请输入QQ号', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入QQ号' },
+            { type: 'number', message: 'QQ号必须为数字类型' },
+            { min: 6, max: 20, message: '长度必须最小为6最长为20' }
+
         ],
         dingTalk: [
-            { required: true, message: '请输入钉钉账号', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入钉钉账号', },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', },
         ],
         email: [
-            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+            { required: true, message: '请输入邮箱地址', },
+            { max: 20, message: '邮箱最大长度20', },
         ],
     })
+
+    //平台的可选项
     const options = [
         {
             value: 'B站',
@@ -204,8 +250,11 @@
             label: '博客源',
         },
     ]
+
+    //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
+            console.log(ruleForm.merit)
             console.log(valid)
         })
     }
@@ -214,5 +263,9 @@
     * {
         margin: 0;
         padding: 0;
+    }
+
+    .el-select-v2 {
+        height:30px !important
     }
 </style>
