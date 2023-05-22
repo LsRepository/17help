@@ -29,5 +29,16 @@ module.exports = {
             }
         },
         port: 5002
+    }, chainWebpack: config => {
+        config.module
+            .rule('vue')
+            .use('vue-loader')
+            .loader('vue-loader')
+            .tap(options => {
+                options.compilerOptions = {
+                    // ... ÄãµÄ±àÒëÆ÷Ñ¡Ïî
+                }
+                return options
+            })
     }
 }
