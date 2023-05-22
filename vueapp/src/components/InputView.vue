@@ -6,9 +6,14 @@
                     <h2>VIP信息录入</h2>
                 </el-header>
                 <div style="border-bottom: 1px solid #409eff"></div>
+                <el-radio-group v-model="labelPosition" label="label position">
+                    <el-radio-button label="left">Left</el-radio-button>
+                    <el-radio-button label="right">Right</el-radio-button>
+                    <el-radio-button label="top">Top</el-radio-button>
+                </el-radio-group>
                 <div style="margin: 20px" />
                 <el-main>
-                    <el-form ref="ruleFormrRef"
+                    <el-form ref="ruleFormRef"
                              :model="ruleForm"
                              :rules="rules"
                              :label-position="labelPosition"
@@ -24,6 +29,7 @@
                                 <el-form-item label="昵称：（* 必填）" prop="nickname">
                                     <el-input v-model="ruleForm.nickname" placeholder="唯一，便于内部检索" autocomplete="off" />
                                 </el-form-item>
+                                <br />
                                 <el-select v-model="ruleForm.platform" clearable placeholder="Select">
                                     <el-option v-for="item in options"
                                                :key="item.value"
@@ -40,7 +46,6 @@
                             <el-col :span="5">
                                 <h3>个人资料</h3>
                                 <div class="grid-content ep-bg-purple" />
-
                                 <el-form-item label="真实姓名：" prop="name">
                                     <el-input v-model="ruleForm.name" />
                                 </el-form-item>
@@ -83,129 +88,28 @@
                             <el-col :span="2"></el-col>
                         </el-row>
                     </el-form>
-                    <el-button style="margin-left:45%" type="primary" @click="submitForm">Submit</el-button>
+                    <el-button style="margin-left:45%" type="primary" @click="onsubmit">Submit</el-button>
                 </el-main>
                 <el-footer>Footer</el-footer>
             </el-container>
         </div>
     </div>
+
 </template>
-<script lang="ts" setup>
-    import { reactive, ref } from 'vue'
-    //import type { FormInstance, FormRules } from 'element-plus'
-    const labelPosition = ref('top')
-
-    //const formSize = ref('default')
-    //const ruleFormRef = ref<FormInstance>()
-    //const ruleForm = reactive({
-    //    nickname: '',
-    //    platform: '',
-    //    platformnickName: '',
-    //    personalhomepage: '',
-    //    name: '',
-    //    birthday: '',
-    //    cpmpany: '',
-    //    city: '',
-    //    merit: '',
-    //    phone: '',
-    //    wechant: '',
-    //    qq: '',
-    //    dingTalk: '',
-    //    email: '',
-    //})
-
-    //const rules = ({
-    //    nickname: [
-    //        { required: true, message: '请输入昵称', trigger: 'blur' },
-    //    ],
-    //    platform: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: '平台最小长度为3最大长度为5', trigger: 'blur' },
-    //    ],
-    //    platformnickName: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    personalhomepage: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    name: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    birthday: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    cpmpany: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    city: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    merit: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    phone: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ], wechant: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    qq: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    dingTalk: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //    email: [
-    //        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    //        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    //    ],
-    //})
-    //const options = [
-    //    {
-    //        value: 'B站',
-    //        label: 'B站',
-    //    },
-    //    {
-    //        value: '知乎',
-    //        label: '知乎',
-    //    },
-    //    {
-    //        value: '快手',
-    //        label: '快手',
-    //    },
-    //    {
-    //        value: '抖音',
-    //        label: '抖音',
-    //    },
-    //    {
-    //        value: '博客源',
-    //        label: '博客源',
-    //    },
-    //]
-    //const onSubmit = () => {
-    //    ruleFormRef.value?.validate((valid) => {
-    //        if (valid) {
-    //            // 表单验证通过，执行接下来的操作
-    //            console.log('submit form');
-    //        } else {
-    //            // 表单验证不通过
-    //            console.log('validate error');
-    //        }
-    //    });
-
-</script>
 <script lang="ts">
-    const ruleForm = ({
+    export default defineComponent({
+        name: 'InputView',
+        setup() {
+
+        }
+    });
+</script>
+<script lang="ts" setup>
+    import { defineComponent, reactive, ref } from 'vue'
+    const labelPosition = ref('top')
+    const formSize = ref('default')
+    const ruleFormRef = ref<any>()
+    const ruleForm = reactive({
         nickname: '',
         platform: '',
         platformnickName: '',
@@ -220,7 +124,63 @@
         qq: '',
         dingTalk: '',
         email: '',
-        usernameErrorMsg:'',
+    })
+
+    const rules = ({
+        nickname: [
+            { required: true, message: '请输入昵称', trigger: 'blur' },
+        ],
+        platform: [
+            { required: true, message: '请输入平台', trigger: 'blur' },
+            { min: 3, max: 5, message: '平台最小长度为3最大长度为5', trigger: 'blur' },
+        ],
+        platformnickName: [
+            { required: true, message: '请选择一个平台昵称', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        personalhomepage: [
+            { required: true, message: '请输入个人主页Url', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        name: [
+            { required: true, message: '请输入本人真实姓名', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        birthday: [
+            { required: true, message: '请输入生日', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        cpmpany: [
+            { required: true, message: '请输入所在公司名称', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        city: [
+            { required: true, message: '请输入城市', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        merit: [
+            { required: true, message: '说一个特长呗', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        phone: [
+            { required: true, message: '请输入电话号码', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ], wechant: [
+            { required: true, message: '请输入微信号', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        qq: [
+            { required: true, message: '请输入QQ号', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        dingTalk: [
+            { required: true, message: '请输入钉钉账号', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
+        email: [
+            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        ],
     })
     const options = [
         {
@@ -244,43 +204,12 @@
             label: '博客源',
         },
     ]
-
-    import { defineComponent } from 'vue';
-    export default defineComponent({
-        name: 'InputView',
-        data() {
-            return {
-                reuleForm: Object
-            }
-        },
-        watch: {
-            nickname: function (newVal, oldVal) {
-                if (!newVal) {
-                    // 用户名为空时显示错误消息
-                    this.usernameErrorMsg = '用户名不能为空'
-                } else {
-                    this.usernameErrorMsg = ''
-                }
-            },
-            password: function (newVal, oldVal) {
-                if (!newVal) {
-                    // 密码为空时显示错误消息
-                   // this.passwordErrorMsg = '密码不能为空'
-                } else {
-                    //this.passwordErrorMsg = ''
-                }
-            }
-        }, methods: {
-            submitForm() {
-                // 表单提交逻辑
-            }
-        }
-
-    });
-
-
+    const onsubmit = () => {
+        ruleFormRef.value.validate((valid: boolean) => {
+            console.log(valid)
+        })
+    }
 </script>
-
 <style scoped>
     * {
         margin: 0;
