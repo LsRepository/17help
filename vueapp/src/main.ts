@@ -10,7 +10,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
 
 //注册axios
-import 'axios'
+import axios from 'axios'
+export default axios
 //注册日期格式
 import dayjs from 'dayjs'
 //注册语言包
@@ -20,7 +21,7 @@ dayjs.locale('zh-cn')
 //全局注册
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 //全局使用element-plus和中文
-app.use(ElementPlus, {
+app.use(ElementPlus,{
     locale
 })
 

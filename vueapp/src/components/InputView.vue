@@ -123,6 +123,7 @@
     //reactive 是Vue 3 提供的用于创建响应式数据对象。
     //ref 是vue3引用数据对象的函数。
     import { defineComponent, reactive, ref } from 'vue'
+    import Axios from 'axios'
     //此常量用来让label默认定为在输入框上方。
     const labelPosition = ref('top')
 
@@ -136,9 +137,6 @@
 
     //特长可选项
     const meritArry = ['c#', 'java', 'sql', 'mySql', 'c++', 'vue', 'cli', 'html', 'css', 'jquery']
-
-    //设置value1为数组
-    const value1 = ref([])
 
     //遍历特长数组放到可选项里
     const meritoptions = meritArry.map((item, idx) => ({
@@ -272,7 +270,14 @@
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
-            console.log(JSON.stringify(ruleForm.birthday).substring(1,11));
+            Axios.post('https://localhost:7089/Vip')
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            console.log(JSON.stringify(ruleForm.birthday).substring(1, 11));
             if (valid) {
                 console.log(ruleForm.birthday)
             }
