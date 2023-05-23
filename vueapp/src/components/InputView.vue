@@ -180,10 +180,12 @@
         const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
         return reg.test(email);
     }
-    //禁用之后的日期
+
+    //禁用今天之后的日期
     const disabledDate = (time: Date) => {
         return time.getTime() > Date.now()
     }
+
     //表单绑定的值效验规则
     const rules = ({
         nickname: [
@@ -270,6 +272,7 @@
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
+            console.log(JSON.stringify(ruleForm.birthday).substring(1,11));
             if (valid) {
                 console.log(ruleForm.birthday)
             }
