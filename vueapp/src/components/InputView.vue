@@ -163,61 +163,76 @@
         dingTalk: '',
         email: '',
     })
+    const checkemail = (rule: any, value: any, callback: any) => {
 
+        setTimeout(() => {
+            if (!isEmailValid(ruleForm.email)) {
+                callback(new Error('邮箱格式不正确'))
+            } else {
+                callback()
+            }
+        }, 1000)
+    }
+    //邮箱验证
+    const isEmailValid = (email: any) => {
+        const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        return reg.test(email);
+    }
     //表单绑定的值效验规则
     const rules = ({
         nickname: [
-            { required: true, message: '请输入昵称', },
-            { min: 1, max: 20, message: '昵称最小长度为1最大长度为20', },
+            { required: true, message: '请输入昵称', trigger: 'blur' },
+            { min: 1, max: 20, message: '昵称最小长度为1最大长度为20', trigger: 'blur' },
         ],
         platform: [
-            { required: true, message: '请输入平台', },
-            { min: 1, max: 10, message: '平台最小长度为1最大长度为10', },
+            { required: true, message: '请输入平台', trigger: 'blur' },
+            { min: 1, max: 10, message: '平台最小长度为1最大长度为10', trigger: 'blur' },
         ],
         platformnickName: [
-            { required: true, message: '请输入平台昵称', },
-            { max: 20, message: '平台昵称最长为20', },
+            { required: true, message: '请输入平台昵称', trigger: 'blur' },
+            { max: 20, message: '平台昵称最长为20', trigger: 'blur' },
         ],
         personalhomepage: [
-            { required: true, message: '请输入个人主页Url', },
+            { required: true, message: '请输入个人主页Url', trigger: 'blur' },
         ],
         name: [
-            { required: true, message: '请输入本人真实姓名', },
-            { min: 1, max: 5, message: '姓名长度最小为1最大长度为5', },
+            { required: true, message: '请输入本人真实姓名', trigger: 'blur' },
+            { min: 1, max: 5, message: '姓名长度最小为1最大长度为5', trigger: 'blur' },
         ],
         birthday: [
-            { required: true, message: '请选择生日日期', },
+            { required: true, message: '请选择生日日期', trigger: 'blur' },
         ],
         company: [
-            { required: true, message: '请输入所在公司名称', },
-            { min: 2, max: 10, message: '公司名称长度最小为2最大长度为10', },
+            { required: true, message: '请输入所在公司名称', trigger: 'blur' },
+            { min: 2, max: 10, message: '公司名称长度最小为2最大长度为10', trigger: 'blur' },
         ],
         city: [
-            { required: true, message: '请输入城市', },
-            { min: 2, max: 5, message: '城市最小长度为 2 to 5', },
+            { required: true, message: '请输入城市', trigger: 'blur' },
+            { min: 2, max: 5, message: '城市最小长度为 2 到 5', trigger: 'blur' },
         ],
         merit: [
-            { required: true, message: '说一个特长呗', },
+            { required: true, message: '说一个特长呗', trigger: 'blur' },
         ],
         phone: [
-            { required: true, message: '请输入电话号码', },
-            { type: 'number', message: 'QQ号必须为数字类型' },
+            { required: true, message: '请输入电话号码', trigger: 'blur' },
+            { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
         ], wechant: [
-            { required: true, message: '请输入微信号', },
-            { min: 1, max: 20, message: '微信最小长度1位最大长度20位', },
+            { required: true, message: '请输入微信号', trigger: 'blur' },
+            { min: 1, max: 20, message: '微信最小长度1位最大长度20位', trigger: 'blur' },
         ],
         qq: [
-            { required: true, message: '请输入QQ号' },
-            { type: 'number', message: 'QQ号必须为数字类型' },
+            { required: true, message: '请输入QQ号', trigger: 'blur' },
+            { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
 
         ],
         dingTalk: [
-            { required: true, message: '请输入钉钉账号', },
-            { min: 6, max: 20, message: '钉钉账户必须在6位到20位以内', },
+            { required: true, message: '请输入钉钉账号', trigger: 'blur' },
+            { min: 6, max: 20, message: '钉钉账户必须在6位到20位以内', trigger: 'blur' },
         ],
         email: [
-            { required: true, message: '请输入邮箱地址', },
-            { max: 20, message: '邮箱最大长度20', },
+            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+            { max: 20, message: '邮箱最大长度20', trigger: 'blur' },
+            { validator: checkemail, trigger: 'blur' }
         ],
     })
 
@@ -244,22 +259,18 @@
             label: '博客源',
         },
     ]
-    //const isEmailValid = (checkemail) => {
-    //    const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-    //    return reg.test(checkemail);
-    //}
+
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
-            const checkemail = ruleForm.email
-            if (isEmailValid(checkemail)) {
-             /*   $message.error('请输入正确的邮箱!');*/
-                return;
+            if (valid) {
+
             }
             console.log(ruleForm)
             console.log(valid)
         })
     }
+
 </script>
 <style scoped>
     * {
