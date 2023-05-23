@@ -13,6 +13,5 @@ app.use(ElementPlus)
 //注册axios
 import  'axios'
 
-
 //记住一定要最后挂载id，否则无法全局注册
 app.mount('#app');

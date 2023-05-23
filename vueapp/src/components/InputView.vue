@@ -63,7 +63,7 @@
                             <el-col :span="5">
                                 <h3>工作/技能</h3>
                                 <div class="grid-content ep-bg-purple" />
-                                <el-form-item label="公司：" prop="cpmpany">
+                                <el-form-item label="公司：" prop="company">
                                     <el-input v-model="ruleForm.company" placeholder="简称即可" />
                                 </el-form-item>
                                 <el-form-item label="所在城市：" prop="city">
@@ -84,7 +84,7 @@
                                 <h3>联系方式</h3>
                                 <div class="grid-content ep-bg-purple" />
                                 <el-form-item label="移动电话：" prop="phone">
-                                    <el-input v-model="ruleForm.phone" />
+                                    <el-input v-model.number="ruleForm.phone" />
                                 </el-form-item>
                                 <el-form-item label="微信：" prop="wechant">
                                     <el-input v-model="ruleForm.wechant" />
@@ -112,10 +112,7 @@
 </template>
 <script lang="ts">
     export default defineComponent({
-        name: 'InputView',
-        setup() {
-
-        }
+        name: 'InputView'
     });
 </script>
 <script lang="ts" setup>
@@ -157,7 +154,7 @@
         personalhomepage: '',
         name: '',
         birthday: '',
-        cpmpany: '',
+        company: '',
         city: '',
         merit: '',
         phone: '',
@@ -179,11 +176,10 @@
         ],
         platformnickName: [
             { required: true, message: '请输入平台昵称', },
-            { max: 20, message: 'Length should be 3 to 5', },
+            { max: 20, message: '平台昵称最长为20', },
         ],
         personalhomepage: [
             { required: true, message: '请输入个人主页Url', },
-            //{ min: 3, max: 5, message: 'Length should be 3 to 5', },
         ],
         name: [
             { required: true, message: '请输入本人真实姓名', },
@@ -192,7 +188,7 @@
         birthday: [
             { required: true, message: '请选择生日日期', },
         ],
-        cpmpany: [
+        company: [
             { required: true, message: '请输入所在公司名称', },
             { min: 2, max: 10, message: '公司名称长度最小为2最大长度为10', },
         ],
@@ -202,11 +198,10 @@
         ],
         merit: [
             { required: true, message: '说一个特长呗', },
-            { min: 5, max: 10, message: '最少5个字最大10个字', },
         ],
         phone: [
             { required: true, message: '请输入电话号码', },
-            { min: 6, max: 11, message: '电话长度最小6位最大11位', },
+            { type: 'number', message: 'QQ号必须为数字类型' },
         ], wechant: [
             { required: true, message: '请输入微信号', },
             { min: 1, max: 20, message: '微信最小长度1位最大长度20位', },
@@ -214,12 +209,11 @@
         qq: [
             { required: true, message: '请输入QQ号' },
             { type: 'number', message: 'QQ号必须为数字类型' },
-            { min: 6, max: 20, message: '长度必须最小为6最长为20' }
 
         ],
         dingTalk: [
             { required: true, message: '请输入钉钉账号', },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', },
+            { min: 6, max: 20, message: '钉钉账户必须在6位到20位以内', },
         ],
         email: [
             { required: true, message: '请输入邮箱地址', },
@@ -250,11 +244,19 @@
             label: '博客源',
         },
     ]
-
+    //const isEmailValid = (checkemail) => {
+    //    const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    //    return reg.test(checkemail);
+    //}
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
-            console.log(ruleForm.merit)
+            const checkemail = ruleForm.email
+            if (isEmailValid(checkemail)) {
+             /*   $message.error('请输入正确的邮箱!');*/
+                return;
+            }
+            console.log(ruleForm)
             console.log(valid)
         })
     }
@@ -266,6 +268,6 @@
     }
 
     .el-select-v2 {
-        height:30px !important
+        height: 30px !important
     }
 </style>
