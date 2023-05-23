@@ -57,7 +57,9 @@
                                                     :disabled-date="disabledDate"
                                                     :shortcuts="shortcuts"
                                                     :size="size"
-                                                    style="width:227.77px" />
+                                                    style="width:227.77px" 
+                                                     format="YYYY年MM月DD日 dddd"
+                                                    />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="5">
@@ -121,8 +123,6 @@
     //reactive 是Vue 3 提供的用于创建响应式数据对象。
     //ref 是vue3引用数据对象的函数。
     import { defineComponent, reactive, ref } from 'vue'
-    // import type { FormInstance } from 'element-plus'
-
     //此常量用来让label默认定为在输入框上方。
     const labelPosition = ref('top')
 
@@ -163,8 +163,9 @@
         dingTalk: '',
         email: '',
     })
-    const checkemail = (rule: any, value: any, callback: any) => {
 
+    //邮箱的效验
+    const checkemail = (rule: any, value: any, callback: any) => {
         setTimeout(() => {
             if (!isEmailValid(ruleForm.email)) {
                 callback(new Error('邮箱格式不正确'))
@@ -173,11 +174,13 @@
             }
         }, 1000)
     }
-    //邮箱验证
+
+    //验证邮箱的格式
     const isEmailValid = (email: any) => {
         const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
         return reg.test(email);
     }
+
     //表单绑定的值效验规则
     const rules = ({
         nickname: [
@@ -264,13 +267,10 @@
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
             if (valid) {
-
+                console.log(ruleForm.birthday)
             }
-            console.log(ruleForm)
-            console.log(valid)
         })
     }
-
 </script>
 <style scoped>
     * {
