@@ -34,7 +34,8 @@
                                         <el-option v-for="item in options"
                                                    :key="item.value"
                                                    :label="item.label"
-                                                   :value="item.value" />
+                                                   :value="item.value
+                                                   " />
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="所在平台昵称：" prop="platformnickName">
@@ -57,9 +58,8 @@
                                                     :disabled-date="disabledDate"
                                                     :shortcuts="shortcuts"
                                                     :size="size"
-                                                    style="width:227.77px" 
-                                                     format="YYYY年MM月DD日 dddd"
-                                                    />
+                                                    style="width:227.77px"
+                                                    format="YYYY年MM月DD日 dddd" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="5">
@@ -180,7 +180,10 @@
         const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
         return reg.test(email);
     }
-
+    //禁用之后的日期
+    const disabledDate = (time: Date) => {
+        return time.getTime() > Date.now()
+    }
     //表单绑定的值效验规则
     const rules = ({
         nickname: [
@@ -197,6 +200,7 @@
         ],
         personalhomepage: [
             { required: true, message: '请输入个人主页Url', trigger: 'blur' },
+            { type: 'url', message: 'url格式不合法', trigger: 'blur' },
         ],
         name: [
             { required: true, message: '请输入本人真实姓名', trigger: 'blur' },
