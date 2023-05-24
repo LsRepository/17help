@@ -6,7 +6,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import InputView from './components/InputView.vue';
+    import InputView from './components/AddOrEdit.vue';
     export default defineComponent({
         name: 'App',
         components: {

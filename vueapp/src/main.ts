@@ -25,5 +25,12 @@ app.use(ElementPlus,{
     locale
 })
 
+const http = axios.create({
+    baseURL: 'https://api.example.com',
+    timeout: 5000
+})
+
+app.config.globalProperties.$http = http
+
 //记住一定要最后挂载id，否则无法全局注册
 app.mount('#app');
