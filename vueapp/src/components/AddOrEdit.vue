@@ -286,7 +286,7 @@
         ruleFormRef.value.validate((valid: boolean) => {
             const instance: any = getCurrentInstance();
             console.log(ruleForm.birthday)
-            Axios.post('https://localhost:7089/Vip')
+            Axios.post('http://localhost:7089/Vip')
                 .then(response => {
                     console.log(response.data)
                 })
@@ -303,8 +303,8 @@
 <script lang="ts">
     export default defineComponent({
         name: 'InputView',
-     
-        })
+
+    })
         ;
 </script>
 
