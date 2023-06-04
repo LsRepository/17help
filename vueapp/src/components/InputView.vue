@@ -6,11 +6,11 @@
                     <h2>VIP信息录入</h2>
                 </el-header>
                 <div style="border-bottom: 1px solid #409eff"></div>
-                <!--<el-radio-group v-model="labelPosition" label="label position">
+                <el-radio-group v-model="labelPosition" label="label position">
                     <el-radio-button label="left">Left</el-radio-button>
                     <el-radio-button label="right">Right</el-radio-button>
                     <el-radio-button label="top">Top</el-radio-button>
-                </el-radio-group>-->
+                </el-radio-group>
                 <div style="margin: 20px" />
                 <el-main>
                     <el-form ref="ruleFormRef"
@@ -80,23 +80,12 @@
                                     <el-input v-model="ruleForm.city" />
                                 </el-form-item>
                                 <el-form-item label="擅长领域：" prop="merit">
-                                    <el-select-v2 v-model="ruleForm.merit"
-                                                  :options="meritoptions"
-                                                  placeholder="请输入您的特长"
-                                                  style="width: 100%;  vertical-align: middle"
-                                                  allow-create
-                                                  filterable
-                                                  multiple
-                                                  clearable />
+                                    <el-input v-model="ruleForm.merit" placeholder="请输入您的特长" />
                                 </el-form-item>
-                                <el-form-item label="工作年限：" prop="merit">
-                                    <el-select-v2 v-model="ruleForm.merit"
-                                                  :options="meritoptions"
-                                                  style="width: 100%;  vertical-align: middle"
-                                                  placeholder="" />
+                                <el-form-item label="工作年限：(单位年)" prop="workYears">
+                                    <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
                                 </el-form-item>
-                                <el-button>继续添加</el-button>
-
+                                <el-button @click="onsubmitwork">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
                                 <h3>联系方式</h3>
@@ -114,8 +103,8 @@
                                 <el-form-item label="Email：" prop="email">
                                     <el-input v-model="ruleForm.email" />
                                 </el-form-item>
-                                <el-form-item label="其他：" prop="dingTalk">
-                                    <el-input v-model="ruleForm.dingTalk" />
+                                <el-form-item label="其他：" prop="rests">
+                                    <el-input v-model="ruleForm.rests" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2"></el-col>
@@ -127,7 +116,6 @@
             </el-container>
         </div>
     </div>
-
 </template>
 
 <script lang="ts" setup>
@@ -140,7 +128,8 @@
     import request from '../Axios/request'
     //此常量用来让label默认定为在输入框上方。
     const labelPosition = ref('top')
-
+    //计数器绑定值
+    const num = ref(1)
     //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
 
@@ -148,15 +137,6 @@
     //并将其初始值设置为 undefined。在后续的代码中，该对象会被赋值为一个表单实例对象，
     //用于在提交表单时进行表单验证，通过 value 属性来获取该对象的值。
     const ruleFormRef = ref<any>()
-
-    //特长可选项
-    const meritArry = ['c#', 'java', 'sql', 'mySql', 'c++', 'vue', 'cli', 'html', 'css', 'jquery']
-
-    //遍历特长数组放到可选项里
-    const meritoptions = meritArry.map((item, idx) => ({
-        value: item,
-        label: `${meritArry[idx % 10]}`,
-    }))
 
     //form表单绑定的变量
     const ruleForm = reactive({
@@ -169,11 +149,13 @@
         company: '',
         city: '',
         merit: '',
+        workYears: '',
         phone: '',
         wechant: '',
         qq: '',
-        dingTalk: '',
         email: '',
+        rests: '',
+
     })
 
     //邮箱的效验
@@ -234,6 +216,9 @@
         merit: [
             { required: true, message: '说一个特长呗', trigger: 'blur' },
         ],
+        workYears: [
+            { required: true, message: '必须写出工作时长', trigger: 'blur' },
+        ],
         phone: [
             { required: true, message: '请输入电话号码', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
@@ -245,10 +230,6 @@
             { required: true, message: '请输入QQ号', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
 
-        ],
-        dingTalk: [
-            { required: true, message: '请输入钉钉账号', trigger: 'blur' },
-            { min: 6, max: 20, message: '钉钉账户必须在6位到20位以内', trigger: 'blur' },
         ],
         email: [
             { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -300,15 +281,21 @@
             }
         })
     }
+    //提交工作技能及时长
+    const onsubmitwork = () => {
+
+
+    }
+
 </script>
 
 <script lang="ts">
     import Upload from '@/Partialpage/Upload.vue'
     export default defineComponent({
         name: 'InputView',
-        components:{
-        Upload
-    }
+        components: {
+            Upload
+        }
     })
         ;
 </script>

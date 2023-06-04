@@ -6,7 +6,7 @@
                :on-remove="handleRemove"
                list-type="picture"
                :limit="1">
-        <el-button type="primary">Click to upload</el-button>
+        <el-button type="primary">点击上传头像</el-button>
         <template #tip>
             <div class="el-upload__tip">
                 jpg/png files with a size less than 500kb
