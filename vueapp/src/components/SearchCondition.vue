@@ -27,11 +27,6 @@
                                   style="width: 100%;  vertical-align: middle"
                                   placeholder="" />
                 </el-form-item>
-
-
-
-
-
                 <el-footer>Footer</el-footer>
             </el-container>
         </div>

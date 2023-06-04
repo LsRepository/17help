@@ -6,11 +6,11 @@
                     <h2>VIP信息录入</h2>
                 </el-header>
                 <div style="border-bottom: 1px solid #409eff"></div>
-                <!--<el-radio-group v-model="labelPosition" label="label position">
+                <el-radio-group v-model="labelPosition" label="label position">
                     <el-radio-button label="left">Left</el-radio-button>
                     <el-radio-button label="right">Right</el-radio-button>
                     <el-radio-button label="top">Top</el-radio-button>
-                </el-radio-group>-->
+                </el-radio-group>
                 <div style="margin: 20px" />
                 <el-main>
                     <el-form ref="ruleFormRef"
@@ -34,8 +34,8 @@
                                         <el-option v-for="item in options"
                                                    :key="item.value"
                                                    :label="item.label"
-                                                   :value="item.value " 
-                                                   style="width:100%"/>
+                                                   :value="item.value
+                                                   " />
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="所在平台昵称：" prop="platformnickName">
@@ -44,7 +44,6 @@
                                 <el-form-item label="个人主页（URL)：" prop="personalhomepage">
                                     <el-input v-model="ruleForm.personalhomepage" />
                                 </el-form-item>
-                                <el-button>继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
                                 <h3>个人资料</h3>
@@ -61,15 +60,6 @@
                                                     :size="size"
                                                     style="width:100%"
                                                     format="YYYY年MM月DD日 dddd" />
-                                </el-form-item>
-                                <el-form-item label="性别：" prop="gender">
-                                    <el-radio-group v-model="radio">
-                                        <el-radio :label="true">男</el-radio>
-                                        <el-radio :label="false">女</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-                                <el-form-item label="照片：" prop="gender">
-                                    <el-input v-model="ruleForm.gender" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="5">
@@ -91,14 +81,6 @@
                                                   multiple
                                                   clearable />
                                 </el-form-item>
-                                <el-form-item label="工作年限：" prop="merit">
-                                    <el-select-v2 v-model="ruleForm.merit"
-                                                  :options="meritoptions"
-                                                  style="width: 100%;  vertical-align: middle"
-                                                  placeholder="" />
-                                </el-form-item>
-                                <el-button>继续添加</el-button>
-
                             </el-col>
                             <el-col :span="5">
                                 <h3>联系方式</h3>
@@ -112,12 +94,11 @@
                                 <el-form-item label="QQ：" prop="qq">
                                     <el-input v-model.number="ruleForm.qq" />
                                 </el-form-item>
-
+                                <el-form-item label="钉钉：" prop="dingTalk">
+                                    <el-input v-model="ruleForm.dingTalk" />
+                                </el-form-item>
                                 <el-form-item label="Email：" prop="email">
                                     <el-input v-model="ruleForm.email" />
-                                </el-form-item>
-                                <el-form-item label="其他：" prop="dingTalk">
-                                    <el-input v-model="ruleForm.dingTalk" />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2"></el-col>
@@ -125,20 +106,24 @@
                     </el-form>
                     <el-button style="margin-left:45%" type="primary" @click="onsubmit">提交</el-button>
                 </el-main>
-                <el-footer></el-footer>
+                <el-footer>Footer</el-footer>
             </el-container>
         </div>
     </div>
 
 </template>
-
+<script lang="ts">
+    export default defineComponent({
+        name: 'InputView'
+    });
+</script>
 <script lang="ts" setup>
     //注册函数
     //defineComponent是vue3提供的一个函数，它接受一个配置对象，包含了组件的各种选项和逻辑，最终返回一个组件对象。
     //reactive 是Vue 3 提供的用于创建响应式数据对象。
     //ref 是vue3引用数据对象的函数。
-    import { defineComponent, reactive, ref, getCurrentInstance } from 'vue'
-    import Axios from 'axios'
+    import { defineComponent, reactive, ref } from 'vue'
+    import request from '../Axios/request';
     //此常量用来让label默认定为在输入框上方。
     const labelPosition = ref('top')
 
@@ -282,35 +267,23 @@
         },
     ]
 
-    const radio = ref(2)
-
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
-            const instance: any = getCurrentInstance();
-            console.log(ruleForm.birthday)
-            Axios.post('http://localhost:7089/Vip')
+            request('https://localhost:7089/Vip', "post", {}, {})
                 .then(response => {
                     console.log(response.data)
                 })
                 .catch(error => {
                     console.error(error)
                 })
-            console.log(ruleForm.birthday);
+            console.log(JSON.stringify(ruleForm.birthday).substring(1, 11));
             if (valid) {
+                console.log(ruleForm.birthday)
             }
         })
     }
 </script>
-
-<script lang="ts">
-    export default defineComponent({
-        name: 'InputView',
-
-    })
-        ;
-</script>
-
 <style scoped>
     * {
         margin: 0;
