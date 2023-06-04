@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\Axios\" />
+    <Folder Include="src\Partialpage\" />
     <Folder Include="src\router\" />
   </ItemGroup>
 </Project>

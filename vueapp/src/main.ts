@@ -8,12 +8,6 @@ app.use(router)
 //注册ElementUI
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
-
-
-
-
-
-
 //注册日期格式
 import dayjs from 'dayjs'
 //注册语言包
