@@ -88,7 +88,7 @@
                                 <el-form-item>
                                     <span>{{text}}</span>
                                 </el-form-item>
-                                <el-button @click="onsubmitwork">继续添加</el-button>
+                                <el-button @click="onSubmitWork">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
                                 <h3>联系方式</h3>
@@ -113,7 +113,7 @@
                             <el-col :span="2"></el-col>
                         </el-row>
                     </el-form>
-                    <el-button style="margin-left:45%" type="primary" @click="onsubmit">提交</el-button>
+                    <el-button style="margin-left:45%" type="primary" @click="onSubmit">提交</el-button>
                 </el-main>
                 <el-footer></el-footer>
             </el-container>
@@ -273,7 +273,7 @@
     const radio = ref(2)
 
     //点击提交之后进行验证·
-    const onsubmit = () => {
+    const onSubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
             if (valid) {
                 const instance: any = getCurrentInstance();
@@ -290,7 +290,7 @@
         })
     }
     //提交工作技能及时长
-    const onsubmitwork = () => {
+    const onSubmitWork = () => {
         if (ruleForm.merit != null && ruleForm.merit !="") {
             text.value = (text.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
             meritWorkYears.push((ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
@@ -298,8 +298,6 @@
             console.log(text)
             console.log(meritWorkYears)
         }
-     
-
     }
 
 </script>
