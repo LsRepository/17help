@@ -27,7 +27,7 @@
                             <el-col :span="5">
                                 <h3>账户信息</h3>
                                 <el-form-item label="昵称：（* 必填）" prop="nickname">
-                                    <el-input v-model="ruleForm.nickname" placeholder="唯一，便于内部检索" autocomplete="off" />
+                                    <el-input v-model="ruleForm.nickname" placeholder="唯一，便于内部检索" autocomplete="off" clearable />
                                 </el-form-item>
                                 <el-form-item label="选择您的平台">
                                     <el-select style="width:100%" v-model="ruleForm.platform" clearable placeholder="选择您所在的平台">
@@ -39,10 +39,10 @@
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="所在平台昵称：" prop="platformnickName">
-                                    <el-input v-model="ruleForm.platformnickName" />
+                                    <el-input v-model="ruleForm.platformnickName" clearable />
                                 </el-form-item>
                                 <el-form-item label="个人主页（URL)：" prop="personalhomepage">
-                                    <el-input v-model="ruleForm.personalhomepage" />
+                                    <el-input v-model="ruleForm.personalhomepage" clearable />
                                 </el-form-item>
                                 <el-button>继续添加</el-button>
                             </el-col>
@@ -50,7 +50,7 @@
                                 <h3>个人资料</h3>
                                 <div class="grid-content ep-bg-purple" />
                                 <el-form-item label="真实姓名：" prop="name">
-                                    <el-input v-model="ruleForm.name" />
+                                    <el-input v-model="ruleForm.name" clearable />
                                 </el-form-item>
                                 <el-form-item label="生日：" prop="birthday">
                                     <el-date-picker v-model="ruleForm.birthday"
@@ -74,13 +74,13 @@
                                 <h3>工作/技能</h3>
                                 <div class="grid-content ep-bg-purple" />
                                 <el-form-item label="公司：" prop="company">
-                                    <el-input v-model="ruleForm.company" placeholder="简称即可" />
+                                    <el-input v-model="ruleForm.company" placeholder="简称即可" clearable />
                                 </el-form-item>
                                 <el-form-item label="所在城市：" prop="city">
-                                    <el-input v-model="ruleForm.city" />
+                                    <el-input v-model="ruleForm.city" clearable />
                                 </el-form-item>
                                 <el-form-item label="擅长领域：" prop="merit">
-                                    <el-input v-model="ruleForm.merit" placeholder="请输入您的特长" />
+                                    <el-input v-model="ruleForm.merit" placeholder="请输入您的特长" clearable />
                                 </el-form-item>
                                 <el-form-item label="工作年限：(单位年)" prop="workYears">
                                     <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
@@ -94,20 +94,20 @@
                                 <h3>联系方式</h3>
                                 <div class="grid-content ep-bg-purple" />
                                 <el-form-item label="移动电话：" prop="phone">
-                                    <el-input v-model.number="ruleForm.phone" />
+                                    <el-input v-model.number="ruleForm.phone" clearable />
                                 </el-form-item>
                                 <el-form-item label="微信：" prop="wechant">
-                                    <el-input v-model="ruleForm.wechant" />
+                                    <el-input v-model="ruleForm.wechant" clearable />
                                 </el-form-item>
                                 <el-form-item label="QQ：" prop="qq">
-                                    <el-input v-model.number="ruleForm.qq" />
+                                    <el-input v-model.number="ruleForm.qq" clearable />
                                 </el-form-item>
 
                                 <el-form-item label="Email：" prop="email">
-                                    <el-input v-model="ruleForm.email" />
+                                    <el-input v-model="ruleForm.email" clearable />
                                 </el-form-item>
                                 <el-form-item label="其他：" prop="rests">
-                                    <el-input v-model="ruleForm.rests" />
+                                    <el-input v-model="ruleForm.rests" clearable />
                                 </el-form-item>
                             </el-col>
                             <el-col :span="2"></el-col>
@@ -275,26 +275,30 @@
     //点击提交之后进行验证·
     const onsubmit = () => {
         ruleFormRef.value.validate((valid: boolean) => {
-            const instance: any = getCurrentInstance();
-            console.log(ruleForm.birthday)
-            request('http://localhost:7089/Vip', "post", {}, {})
-                .then(response => {
-                    console.log(response.data)
-                })
-                .catch(error => {
-                    console.error(error)
-                })
-            console.log(ruleForm.birthday);
             if (valid) {
+                const instance: any = getCurrentInstance();
+                console.log(ruleForm.birthday)
+                request('http://localhost:7089/Vip', "post", {}, {})
+                    .then(response => {
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                        console.error(error)
+                    })
+                console.log(ruleForm.birthday);
             }
         })
     }
     //提交工作技能及时长
     const onsubmitwork = () => {
-        text.value = (text.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
-        meritWorkYears.push(( ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
-        console.log(text)
-        console.log(meritWorkYears)
+        if (ruleForm.merit != null && ruleForm.merit !="") {
+            text.value = (text.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
+            meritWorkYears.push((ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
+            ruleForm.merit = "";
+            console.log(text)
+            console.log(meritWorkYears)
+        }
+     
 
     }
 
