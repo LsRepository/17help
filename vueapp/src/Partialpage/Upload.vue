@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
     export default defineComponent({
-        name: 'InputView',
+        name: 'Upload',
     })
         ;
 </script>
@@ -25,8 +25,6 @@
     import { ref, defineComponent } from 'vue'
 
     import type { UploadProps, UploadUserFile } from 'element-plus'
-
-
 
     const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
         console.log(uploadFile, uploadFiles)

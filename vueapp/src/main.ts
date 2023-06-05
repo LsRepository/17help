@@ -20,9 +20,5 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 app.use(ElementPlus,{
     locale
 })
-
-
-
-
 //记住一定要最后挂载id，否则无法全局注册
 app.mount('#app');

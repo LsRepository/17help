@@ -29,22 +29,19 @@
                                 <el-form-item label="昵称：（* 必填）" prop="nickname">
                                     <el-input v-model="ruleForm.nickname" placeholder="唯一，便于内部检索" autocomplete="off" clearable />
                                 </el-form-item>
-                                <el-form-item label="选择您的平台">
-                                    <el-select style="width:100%" v-model="ruleForm.platform" clearable placeholder="选择您所在的平台">
-                                        <el-option v-for="item in options"
-                                                   :key="item.value"
-                                                   :label="item.label"
-                                                   :value="item.value "
-                                                   style="width:100%" />
-                                    </el-select>
+                                <el-form-item label="输入您的平台" prop="platform">
+                                    <el-input v-model="ruleForm.platform" clearable />
                                 </el-form-item>
-                                <el-form-item label="所在平台昵称：" prop="platformnickName">
-                                    <el-input v-model="ruleForm.platformnickName" clearable />
+                                <el-form-item label="所在平台昵称：" prop="platformNickName">
+                                    <el-input v-model="ruleForm.platformNickName" clearable />
                                 </el-form-item>
-                                <el-form-item label="个人主页（URL)：" prop="personalhomepage">
-                                    <el-input v-model="ruleForm.personalhomepage" clearable />
+                                <el-form-item label="个人主页（URL)：" prop="personalHomepage">
+                                    <el-input v-model="ruleForm.personalHomepage" clearable />
                                 </el-form-item>
-                                <el-button>继续添加</el-button>
+                                <el-form-item>
+                                    <span>{{platformNickNameText}}</span>
+                                </el-form-item>
+                                <el-button @click="onSubmitPlatformNickName">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
                                 <h3>个人资料</h3>
@@ -86,7 +83,7 @@
                                     <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
                                 </el-form-item>
                                 <el-form-item>
-                                    <span>{{text}}</span>
+                                    <span>{{worktext}}</span>
                                 </el-form-item>
                                 <el-button @click="onSubmitWork">继续添加</el-button>
                             </el-col>
@@ -136,7 +133,8 @@
     //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
 
-    const text = ref("");
+    const platformNickNameText = ref("");
+    const worktext = ref("");
     const meritWorkYears: [] = []
 
     //此常量在代码使用 ref 函数创建了一个名为 ruleFormRef 的引用数据对象
@@ -144,12 +142,17 @@
     //用于在提交表单时进行表单验证，通过 value 属性来获取该对象的值。
     const ruleFormRef = ref<any>()
 
+
+
+
+
+
     //form表单绑定的变量
     const ruleForm = reactive({
         nickname: '',
         platform: '',
-        platformnickName: '',
-        personalhomepage: '',
+        platformNickName: '',
+        personalHomepage: '',
         name: '',
         birthday: '',
         company: '',
@@ -161,8 +164,8 @@
         qq: '',
         email: '',
         rests: '',
-
     })
+
 
     //邮箱的效验
     const checkemail = (rule: any, value: any, callback: any) => {
@@ -196,11 +199,11 @@
             { required: true, message: '请输入平台', trigger: 'blur' },
             { min: 1, max: 10, message: '平台最小长度为1最大长度为10', trigger: 'blur' },
         ],
-        platformnickName: [
+        platformNickName: [
             { required: true, message: '请输入平台昵称', trigger: 'blur' },
             { max: 20, message: '平台昵称最长为20', trigger: 'blur' },
         ],
-        personalhomepage: [
+        personalHomepage: [
             { required: true, message: '请输入个人主页Url', trigger: 'blur' },
             { type: 'url', message: 'url格式不合法', trigger: 'blur' },
         ],
@@ -237,7 +240,6 @@
         qq: [
             { required: true, message: '请输入QQ号', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
-
         ],
         email: [
             { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -245,30 +247,6 @@
             { validator: checkemail, trigger: 'blur' }
         ],
     })
-
-    //平台的可选项
-    const options = [
-        {
-            value: 'B站',
-            label: 'B站',
-        },
-        {
-            value: '知乎',
-            label: '知乎',
-        },
-        {
-            value: '快手',
-            label: '快手',
-        },
-        {
-            value: '抖音',
-            label: '抖音',
-        },
-        {
-            value: '博客源',
-            label: '博客源',
-        },
-    ]
 
     const radio = ref(2)
 
@@ -289,14 +267,26 @@
             }
         })
     }
+
+    //提交平台昵称
+    const onSubmitPlatformNickName = () => {
+        console.log(1111)
+        if (ruleForm.platform.length > 0 && ruleForm.platformNickName.length > 0) {
+            platformNickNameText.value = (platformNickNameText.value + ruleForm.platform + ":" + ruleForm.platformNickName + "   " as string);
+            ruleForm.platform = ""
+            ruleForm.platformNickName = ""
+            console.log(platformNickNameText)
+        } else {
+
+        }
+    }
+
     //提交工作技能及时长
     const onSubmitWork = () => {
-        if (ruleForm.merit != null && ruleForm.merit !="") {
-            text.value = (text.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
+        if (ruleForm.merit.length > 0) {
+            worktext.value = (worktext.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
             meritWorkYears.push((ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
             ruleForm.merit = "";
-            console.log(text)
-            console.log(meritWorkYears)
         }
     }
 
