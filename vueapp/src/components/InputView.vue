@@ -85,6 +85,9 @@
                                 <el-form-item label="工作年限：(单位年)" prop="workYears">
                                     <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
                                 </el-form-item>
+                                <el-form-item>
+                                    <span>{{text}}</span>
+                                </el-form-item>
                                 <el-button @click="onsubmitwork">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
@@ -132,6 +135,9 @@
     const num = ref(1)
     //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
+
+    const text = ref("");
+    const meritWorkYears: [] = []
 
     //此常量在代码使用 ref 函数创建了一个名为 ruleFormRef 的引用数据对象
     //并将其初始值设置为 undefined。在后续的代码中，该对象会被赋值为一个表单实例对象，
@@ -215,6 +221,7 @@
         ],
         merit: [
             { required: true, message: '说一个特长呗', trigger: 'blur' },
+            { min: 1, max: 10, message: '特长最小长度为 1 到 10', trigger: 'blur' },
         ],
         workYears: [
             { required: true, message: '必须写出工作时长', trigger: 'blur' },
@@ -222,7 +229,8 @@
         phone: [
             { required: true, message: '请输入电话号码', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
-        ], wechant: [
+        ],
+        wechant: [
             { required: true, message: '请输入微信号', trigger: 'blur' },
             { min: 1, max: 20, message: '微信最小长度1位最大长度20位', trigger: 'blur' },
         ],
@@ -283,7 +291,10 @@
     }
     //提交工作技能及时长
     const onsubmitwork = () => {
-
+        text.value = (text.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
+        meritWorkYears.push(( ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
+        console.log(text)
+        console.log(meritWorkYears)
 
     }
 
@@ -297,7 +308,6 @@
             Upload
         }
     })
-        ;
 </script>
 
 <style scoped>
@@ -310,11 +320,7 @@
         height: 30px !important
     }
 
-    .el-upload {
-        width: 100%;
+    .example-showcase .el-select-v2 {
+        margin-right: 20px;
     }
-
-        .el-upload .el-upload-dragger {
-            width: 100%;
-        }
 </style>
