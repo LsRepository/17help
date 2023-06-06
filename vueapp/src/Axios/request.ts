@@ -14,7 +14,7 @@ type Date<T> = {
     message: string,
     data: T
 }
-const request = <T>(url: string, method: Method, submitData: object, config: AxiosRequestConfig) => {
+const request = <T>(url: string, method: Method, submitData: JSON, config: AxiosRequestConfig) => {
     return service.request<T, Date<T>>({
         url,
         method,

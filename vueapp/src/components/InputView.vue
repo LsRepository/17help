@@ -124,7 +124,6 @@
         </div>
     </div>
 </template>
-<el-label></el-label>
 
 <script lang="ts" setup>
     //注册函数
@@ -196,55 +195,42 @@
             { min: 1, max: 20, message: '昵称最小长度为1最大长度为20', trigger: 'blur' },
         ],
         platform: [
-            { required: true, message: '请输入平台', trigger: 'blur' },
             { min: 1, max: 10, message: '平台最小长度为1最大长度为10', trigger: 'blur' },
         ],
         platformNickName: [
-            { required: true, message: '请输入平台昵称', trigger: 'blur' },
             { max: 20, message: '平台昵称最长为20', trigger: 'blur' },
         ],
         personalHomepage: [
-            { required: true, message: '请输入个人主页Url', trigger: 'blur' },
             { type: 'url', message: 'url格式不合法', trigger: 'blur' },
         ],
         name: [
-            { required: true, message: '请输入本人真实姓名', trigger: 'blur' },
             { min: 1, max: 5, message: '姓名长度最小为1最大长度为5', trigger: 'blur' },
         ],
         birthday: [
-            { required: true, message: '请选择生日日期', trigger: 'blur' },
         ],
         company: [
-            { required: true, message: '请输入所在公司名称', trigger: 'blur' },
             { min: 2, max: 10, message: '公司名称长度最小为2最大长度为10', trigger: 'blur' },
         ],
         city: [
-            { required: true, message: '请输入城市', trigger: 'blur' },
             { min: 2, max: 5, message: '城市最小长度为 2 到 5', trigger: 'blur' },
         ],
         merit: [
-            { required: true, message: '说一个特长呗', trigger: 'blur' },
             { min: 1, max: 10, message: '特长最小长度为 1 到 10', trigger: 'blur' },
         ],
         workYears: [
-            { required: true, message: '必须写出工作时长', trigger: 'blur' },
         ],
         phone: [
-            { required: true, message: '请输入电话号码', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
         ],
         wechant: [
-            { required: true, message: '请输入微信号', trigger: 'blur' },
             { min: 1, max: 20, message: '微信最小长度1位最大长度20位', trigger: 'blur' },
         ],
         qq: [
-            { required: true, message: '请输入QQ号', trigger: 'blur' },
             { type: 'number', message: 'QQ号必须为数字类型', trigger: 'blur' },
         ],
         email: [
-            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
             { max: 20, message: '邮箱最大长度20', trigger: 'blur' },
-            { validator: checkemail, trigger: 'blur' }
+            //{ validator: checkemail, trigger: 'blur' }
         ],
     })
 
@@ -252,20 +238,18 @@
 
     //点击提交之后进行验证·
     const onSubmit = () => {
-        ruleFormRef.value.validate((valid: boolean) => {
-            if (valid) {
-                const instance: any = getCurrentInstance();
-                console.log(ruleForm.birthday)
-                request('http://localhost:7089/Vip', "post", {}, {})
-                    .then(response => {
-                        console.log(response.data)
-                    })
-                    .catch(error => {
-                        console.error(error)
-                    })
-                console.log(ruleForm.birthday);
-            }
-        })
+        if (ruleForm.nickname.length > 0) {
+            const instance: any = getCurrentInstance();
+            console.log(ruleForm.birthday)
+            request('http://localhost:7089/Vip', "POST", JSON.parse(JSON.stringify(ruleForm)), {})
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+            console.log(ruleForm.birthday);
+        }
     }
 
     //提交平台昵称

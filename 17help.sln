@@ -7,6 +7,10 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "vueapp", "vueapp\vueapp.esp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi\webapi.csproj", "{6B65389A-7164-4D2F-8414-7C3E4EDDB37C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{5139E5A6-BFAE-4579-9A4C-860159436EF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{66DD5663-BC6E-410B-A2B0-84C2866CAF51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,14 @@ Global
 		{6B65389A-7164-4D2F-8414-7C3E4EDDB37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B65389A-7164-4D2F-8414-7C3E4EDDB37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B65389A-7164-4D2F-8414-7C3E4EDDB37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5139E5A6-BFAE-4579-9A4C-860159436EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5139E5A6-BFAE-4579-9A4C-860159436EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5139E5A6-BFAE-4579-9A4C-860159436EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5139E5A6-BFAE-4579-9A4C-860159436EF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DD5663-BC6E-410B-A2B0-84C2866CAF51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DD5663-BC6E-410B-A2B0-84C2866CAF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DD5663-BC6E-410B-A2B0-84C2866CAF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DD5663-BC6E-410B-A2B0-84C2866CAF51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
