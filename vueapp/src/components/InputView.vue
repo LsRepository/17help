@@ -38,8 +38,7 @@
                                 <el-form-item label="个人主页（URL)：" prop="personalHomepage">
                                     <el-input v-model="ruleForm.personalHomepage" clearable />
                                 </el-form-item>
-                                <el-form-item>
-                                    <span>{{platformNickNameText}}</span>
+                                <el-form-item style="white-space: pre-wrap;" v-bind:label="platformNickNameText">
                                 </el-form-item>
                                 <el-button @click="onSubmitPlatformNickName">继续添加</el-button>
                             </el-col>
@@ -82,10 +81,9 @@
                                 <el-form-item label="工作年限：(单位年)" prop="workYears">
                                     <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
                                 </el-form-item>
-                                <el-form-item>
-                                    <span>{{worktext}}</span>
-                                </el-form-item>
-                                <el-button @click="onSubmitWork">继续添加</el-button>
+                                    <el-form-item style="white-space: pre-wrap;" v-bind:label="meritWorkYearsText">
+                                    </el-form-item>
+                                <el-button @click="onSubmitMeritWorkYearsText">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
                                 <h3>联系方式</h3>
@@ -132,10 +130,9 @@
     const num = ref(1)
     //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
-
+    //创建响应式变量
     const platformNickNameText = ref("");
-    const worktext = ref("");
-    const meritWorkYears: [] = []
+    const meritWorkYearsText = ref("");
 
     //此常量在代码使用 ref 函数创建了一个名为 ruleFormRef 的引用数据对象
     //并将其初始值设置为 undefined。在后续的代码中，该对象会被赋值为一个表单实例对象，
@@ -270,22 +267,20 @@
 
     //提交平台昵称
     const onSubmitPlatformNickName = () => {
-        console.log(1111)
         if (ruleForm.platform.length > 0 && ruleForm.platformNickName.length > 0) {
-            platformNickNameText.value = (platformNickNameText.value + ruleForm.platform + ":" + ruleForm.platformNickName + "   " as string);
+            platformNickNameText.value = (platformNickNameText.value + ruleForm.platform + " " + ruleForm.platformNickName + "\r\n" as string) ;
             ruleForm.platform = ""
             ruleForm.platformNickName = ""
-            console.log(platformNickNameText)
+            console.log(platformNickNameText.value)
         } else {
 
         }
     }
 
     //提交工作技能及时长
-    const onSubmitWork = () => {
+    const onSubmitMeritWorkYearsText = () => {
         if (ruleForm.merit.length > 0) {
-            worktext.value = (worktext.value + ruleForm.merit + ":" + ruleForm.workYears + "年   " as string);
-            meritWorkYears.push((ruleForm.merit + ":" + ruleForm.workYears + "年" as string) as never)
+            meritWorkYearsText.value = (meritWorkYearsText.value + ruleForm.merit + " " + ruleForm.workYears + "年\r\n" as string);
             ruleForm.merit = "";
         }
     }

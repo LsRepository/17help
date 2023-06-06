@@ -5,7 +5,8 @@
                :on-preview="handlePreview"
                :on-remove="handleRemove"
                list-type="picture"
-               :limit="1">
+               :limit="1"
+               :before-upload="beforeAvatarUpload">
         <el-button type="primary">点击上传头像</el-button>
         <template #tip>
             <div class="el-upload__tip">
@@ -15,6 +16,7 @@
     </el-upload>
 </template>
 <script lang="ts">
+    import { defineComponent } from 'vue'
     export default defineComponent({
         name: 'Upload',
     })
@@ -22,15 +24,21 @@
 </script>
 <script lang="ts" setup>
 
-    import { ref, defineComponent } from 'vue'
-
-    import type { UploadProps, UploadUserFile } from 'element-plus'
+    import type { UploadProps, UploadUserFile, ElMessage } from 'element-plus'
 
     const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-        console.log(uploadFile, uploadFiles)
     }
 
     const handlePreview: UploadProps['onPreview'] = (file) => {
-        console.log(file)
+    }
+    const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+        if (rawFile.type !== 'image/jpeg') {
+            ElMessage.error('Avatar picture must be JPG format!')
+            return false
+        } else if (rawFile.size / 1024 / 1024 > 2) {
+            ElMessage.error('Avatar picture size can not exceed 2MB!')
+            return false
+        }
+        return true
     }
 </script>
