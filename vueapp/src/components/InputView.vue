@@ -38,8 +38,12 @@
                                 <el-form-item label="个人主页（URL)：" prop="personalHomepage">
                                     <el-input v-model="ruleForm.personalHomepage" clearable />
                                 </el-form-item>
-                                <el-form-item style="white-space: pre-wrap;" v-bind:label="platformNickNameText">
-                                </el-form-item>
+                                <div v-for="item in ruleForm.platformNickNameArray">
+                                    <el-badge class="item">
+                                        <el-button type="primary">{{item}}</el-button>
+                                    </el-badge>
+                                </div>
+                                <br />
                                 <el-button @click="onSubmitPlatformNickName">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
@@ -64,7 +68,9 @@
                                         <el-radio :label="false">女</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
-                                <Upload></Upload>
+                                <el-form-item label="上传头像" prop="gender" style="width:100%">
+                                    <Upload></Upload>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="5">
                                 <h3>工作/技能</h3>
@@ -81,8 +87,12 @@
                                 <el-form-item label="工作年限：(单位年)" prop="workYears">
                                     <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
                                 </el-form-item>
-                                    <el-form-item style="white-space: pre-wrap;" v-bind:label="meritWorkYearsText">
-                                    </el-form-item>
+                                <div v-for="item in ruleForm.meritWorkYearsArray">
+                                    <el-badge class="item">
+                                        <el-button type="primary">{{item}}</el-button>
+                                    </el-badge>
+                                </div>
+                                <br />
                                 <el-button @click="onSubmitMeritWorkYearsText">继续添加</el-button>
                             </el-col>
                             <el-col :span="5">
@@ -97,7 +107,6 @@
                                 <el-form-item label="QQ：" prop="qq">
                                     <el-input v-model.number="ruleForm.qq" clearable />
                                 </el-form-item>
-
                                 <el-form-item label="Email：" prop="email">
                                     <el-input v-model="ruleForm.email" clearable />
                                 </el-form-item>
@@ -115,6 +124,7 @@
         </div>
     </div>
 </template>
+<el-label></el-label>
 
 <script lang="ts" setup>
     //注册函数
@@ -122,6 +132,7 @@
     //reactive 是Vue 3 提供的用于创建响应式数据对象。
     //ref 是vue3引用数据对象的函数。
     import { defineComponent, reactive, ref, getCurrentInstance } from 'vue'
+    import { CaretBottom } from '@element-plus/icons-vue'
     //导入axios请求
     import request from '../Axios/request'
     //此常量用来让label默认定为在输入框上方。
@@ -130,20 +141,10 @@
     const num = ref(1)
     //此常量用来设置form表单尺寸为默认。
     const formSize = ref('default')
-    //创建响应式变量
-    const platformNickNameText = ref("");
-    const meritWorkYearsText = ref("");
-
     //此常量在代码使用 ref 函数创建了一个名为 ruleFormRef 的引用数据对象
     //并将其初始值设置为 undefined。在后续的代码中，该对象会被赋值为一个表单实例对象，
     //用于在提交表单时进行表单验证，通过 value 属性来获取该对象的值。
     const ruleFormRef = ref<any>()
-
-
-
-
-
-
     //form表单绑定的变量
     const ruleForm = reactive({
         nickname: '',
@@ -161,6 +162,8 @@
         qq: '',
         email: '',
         rests: '',
+        platformNickNameArray: [],
+        meritWorkYearsArray: []
     })
 
 
@@ -268,10 +271,9 @@
     //提交平台昵称
     const onSubmitPlatformNickName = () => {
         if (ruleForm.platform.length > 0 && ruleForm.platformNickName.length > 0) {
-            platformNickNameText.value = (platformNickNameText.value + ruleForm.platform + " " + ruleForm.platformNickName + "\r\n" as string) ;
+            ruleForm.platformNickNameArray.push(((ruleForm.platform + " " + ruleForm.platformNickName) as never))
             ruleForm.platform = ""
             ruleForm.platformNickName = ""
-            console.log(platformNickNameText.value)
         } else {
 
         }
@@ -280,7 +282,7 @@
     //提交工作技能及时长
     const onSubmitMeritWorkYearsText = () => {
         if (ruleForm.merit.length > 0) {
-            meritWorkYearsText.value = (meritWorkYearsText.value + ruleForm.merit + " " + ruleForm.workYears + "年\r\n" as string);
+            ruleForm.meritWorkYearsArray.push(((ruleForm.merit + " " + ruleForm.workYears + "年") as never));
             ruleForm.merit = "";
         }
     }
@@ -309,5 +311,14 @@
 
     .example-showcase .el-select-v2 {
         margin-right: 20px;
+    }
+
+    .item {
+        margin-top: 10px;
+        margin-right: 40px;
+    }
+
+    .el-dropdown {
+        margin-top: 1.1rem;
     }
 </style>
