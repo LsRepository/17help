@@ -7,7 +7,6 @@
                list-type="picture"
                :limit="1"
                :before-upload="beforeAvatarUpload"
-               on-success
                >
         <el-button type="primary">点击上传头像</el-button>
     </el-upload>

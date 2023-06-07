@@ -26,6 +26,11 @@ module.exports = {
         proxy: {
             '^/weatherforecast': {
                 target: 'http://localhost:7089/'
+            },
+            '/': {
+                target: 'http://localhost:7089/', // 本地后端地址
+                changeOrigin: true, //允许跨域
+                ws: false
             }
         },
         port: 5002

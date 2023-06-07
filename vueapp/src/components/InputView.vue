@@ -57,13 +57,11 @@
                                                     type="date"
                                                     placeholder="请选择日期吧"
                                                     :disabled-date="disabledDate"
-                                                    :shortcuts="shortcuts"
-                                                    :size="size"
                                                     style="width:100%"
                                                     format="YYYY年MM月DD日 dddd" />
                                 </el-form-item>
                                 <el-form-item label="性别：" prop="gender">
-                                    <el-radio-group v-model="radio">
+                                    <el-radio-group v-model="ruleForm.gender">
                                         <el-radio :label="true">男</el-radio>
                                         <el-radio :label="false">女</el-radio>
                                     </el-radio-group>
@@ -85,7 +83,7 @@
                                     <el-input v-model="ruleForm.merit" placeholder="请输入您的特长" clearable />
                                 </el-form-item>
                                 <el-form-item label="工作年限：(单位年)" prop="workYears">
-                                    <el-input-number v-model="ruleForm.workYears" :min="1" :max="30" @change="handleChange" style="width:100%" />
+                                    <el-input-number v-model="ruleForm.workYears"  style="width:100%" />
                                 </el-form-item>
                                 <div v-for="item in ruleForm.meritWorkYearsArray">
                                     <el-badge class="item">
@@ -152,6 +150,7 @@
         personalHomepage: '',
         name: '',
         birthday: '',
+        gender: Boolean,
         company: '',
         city: '',
         merit: '',
@@ -240,7 +239,8 @@
     const onSubmit = () => {
         if (ruleForm.nickname.length > 0) {
             const instance: any = getCurrentInstance();
-            console.log(ruleForm.birthday)
+            ruleForm.birthday = "";
+            console.log(typeof (ruleForm))
             request('http://localhost:7089/Vip', "POST", JSON.parse(JSON.stringify(ruleForm)), {})
                 .then(response => {
                     console.log(response)
@@ -248,7 +248,6 @@
                 .catch(error => {
                     console.error(error)
                 })
-            console.log(ruleForm.birthday);
         }
     }
 
